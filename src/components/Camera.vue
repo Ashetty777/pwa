@@ -3,6 +3,8 @@
       <video ref="video" autoplay></video>
       <div v-if="!cameraOpened" class="controls">
         <button @click="openCamera" class="btn open-camera">Open Camera</button>
+        <button @click="openCameraBack" class="btn open-camera">Open Camera Back</button>
+
       </div>
       <div v-else class="controls">
         <button @click="startRecording" class="btn start">Start Recording</button>
@@ -34,7 +36,11 @@
     },
     methods: {
       openCamera() {
-        this.cameraOpened = true;
+        this.cameraOpened = ! this.cameraOpened;
+        this.startCamera();
+      },
+      openCameraBack() {
+        this.cameraOpened = ! this.cameraOpened;
         this.startCamera();
       },
       async startCamera() {
