@@ -3,11 +3,8 @@
       <video ref="video" autoplay></video>
       <div v-if="!cameraOpened" class="controls">
         <button @click="openCamera" class="btn open-camera">Open Camera</button>
-        <button @click="openCameraBack" class="btn open-camera">Open Camera Back</button>
-
       </div>
       <div v-else class="controls">
-        <button @click="openCamera" class="btn open-camera">Open Camera</button>
         <button @click="startRecording" class="btn start">Start Recording</button>
         <button @click="stopRecording" class="btn stop">Stop Recording</button>
         <button @click="captureImage" class="btn capture">Capture Image</button>
@@ -21,11 +18,17 @@
         <a :href="mediaUrl" :download="fileName" class="btn download">Download {{ isVideo ? 'Video' : 'Image' }}</a>
         <button @click="cancelMedia" class="btn cancel">Cancel</button>
       </div>
+      <notification-component ref="notification"></notification-component>
     </div>
   </template>
   
   <script>
+  import NotificationComponent from './NotificationComponent.vue';
+  
   export default {
+    components: {
+      NotificationComponent,
+    },
     data() {
       return {
         mediaRecorder: null,
@@ -33,18 +36,31 @@
         mediaUrl: null,
         isVideo: false,
         fileName: '',
-    cameraOpened: false,
-      facingMode: 'user',
+        cameraOpened: false,
+        facingMode: 'user', // Default to front camera
       };
     },
     methods: {
       openCamera() {
-       this.cameraOpened = true;
-      this.startCamera();
+        this.cameraOpened = true;
+        this.startCamera();
+        this.$refs.notification.showNotification('Camera opened');
       },
       async startCamera() {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: this.facingMode },
+          audio: true
+        });
         this.$refs.video.srcObject = stream;
+      },
+      async toggleCamera() {
+        this.facingMode = this.facingMode === 'user' ? 'environment' : 'user';
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: this.facingMode },
+          audio: true
+        });
+        this.$refs.video.srcObject = stream;
+        this.$refs.notification.showNotification(`Switched to ${this.facingMode === 'user' ? 'front' : 'back'} camera`);
       },
       async startRecording() {
         this.resetMedia();
@@ -63,16 +79,8 @@
           this.mediaUrl = URL.createObjectURL(blob);
         };
         this.mediaRecorder.start();
+        this.$refs.notification.showNotification('Recording started');
       },
-     async toggleCamera() {
-      this.facingMode = this.facingMode === 'user' ? 'environment' : 'user';
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: this.facingMode },
-        audio: true
-      });
-      this.$refs.video.srcObject = stream;
-      this.$refs.notification.showNotification(`Switched to ${this.facingMode === 'user' ? 'front' : 'back'} camera`);
-    },
       stopRecording() {
         if (this.mediaRecorder) {
           this.mediaRecorder.stop();
@@ -80,6 +88,7 @@
           const tracks = stream.getTracks();
           tracks.forEach((track) => track.stop());
           this.$refs.video.srcObject = null;
+          this.$refs.notification.showNotification('Recording stopped');
         }
       },
       async captureImage() {
@@ -93,6 +102,7 @@
         const context = canvas.getContext('2d');
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
         this.mediaUrl = canvas.toDataURL('image/png');
+        this.$refs.notification.showNotification('Image captured');
       },
       closeCamera() {
         this.cameraOpened = false;
@@ -100,9 +110,11 @@
         const tracks = stream.getTracks();
         tracks.forEach((track) => track.stop());
         this.$refs.video.srcObject = null;
+        this.$refs.notification.showNotification('Camera closed');
       },
       cancelMedia() {
         this.resetMedia();
+        this.$refs.notification.showNotification('Media cancelled');
       },
       resetMedia() {
         this.mediaUrl = null;
@@ -203,6 +215,14 @@
   
   .close:hover {
     background-color: #cc0000; /* Darker red on hover */
+  }
+  
+  .toggle {
+    background-color: #ff9800; /* Orange background */
+  }
+  
+  .toggle:hover {
+    background-color: #e68900; /* Darker orange on hover */
   }
   
   .media-output {
