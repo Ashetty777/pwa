@@ -41,21 +41,21 @@
       };
     },
     methods: {
-      openCamera() {
+      async openCamera() {
         this.cameraOpened = true;
-        this.startCamera();
+        await this.startCamera();
         this.$refs.notification.showNotification('Camera opened');
       },
       async startCamera() {
         try {
           const stream = await navigator.mediaDevices.getUserMedia({
             video: { facingMode: this.facingMode },
-            audio: true
+            audio: true,
           });
           this.$refs.video.srcObject = stream;
         } catch (error) {
           console.error("Error accessing camera:", error);
-          this.$refs.notification.showNotification('Error accessing camera');
+          this.$refs.notification.showNotification(`Error accessing camera: ${error.message}`);
         }
       },
       async toggleCamera() {
@@ -63,13 +63,13 @@
         try {
           const stream = await navigator.mediaDevices.getUserMedia({
             video: { facingMode: this.facingMode },
-            audio: true
+            audio: true,
           });
           this.$refs.video.srcObject = stream;
           this.$refs.notification.showNotification(`Switched to ${this.facingMode === 'user' ? 'front' : 'back'} camera`);
         } catch (error) {
           console.error("Error toggling camera:", error);
-          this.$refs.notification.showNotification('Error toggling camera');
+          this.$refs.notification.showNotification(`Error toggling camera: ${error.message}`);
         }
       },
       async startRecording() {
