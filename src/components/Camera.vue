@@ -11,6 +11,7 @@
         <button @click="startRecording" class="btn start">Start Recording</button>
         <button @click="stopRecording" class="btn stop">Stop Recording</button>
         <button @click="captureImage" class="btn capture">Capture Image</button>
+        <button @click="toggleCamera" class="btn toggle">Toggle Camera</button>
         <button @click="closeCamera" class="btn close">Close Camera</button>
       </div>
       <div v-if="mediaUrl" class="media-output">
@@ -32,15 +33,15 @@
         mediaUrl: null,
         isVideo: false,
         fileName: '',
-        cameraOpened: false,
+    cameraOpened: false,
+      facingMode: 'user',
       };
     },
     methods: {
       openCamera() {
-        this.cameraOpened = ! this.cameraOpened;
-        this.startCamera();
+       this.cameraOpened = true;
+      this.startCamera();
       },
-    
       async startCamera() {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
         this.$refs.video.srcObject = stream;
@@ -63,6 +64,15 @@
         };
         this.mediaRecorder.start();
       },
+     async toggleCamera() {
+      this.facingMode = this.facingMode === 'user' ? 'environment' : 'user';
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: this.facingMode },
+        audio: true
+      });
+      this.$refs.video.srcObject = stream;
+      this.$refs.notification.showNotification(`Switched to ${this.facingMode === 'user' ? 'front' : 'back'} camera`);
+    },
       stopRecording() {
         if (this.mediaRecorder) {
           this.mediaRecorder.stop();
