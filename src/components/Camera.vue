@@ -7,6 +7,7 @@
 
       </div>
       <div v-else class="controls">
+        <button @click="openCamera" class="btn open-camera">Open Camera</button>
         <button @click="startRecording" class="btn start">Start Recording</button>
         <button @click="stopRecording" class="btn stop">Stop Recording</button>
         <button @click="captureImage" class="btn capture">Capture Image</button>
@@ -39,10 +40,7 @@
         this.cameraOpened = ! this.cameraOpened;
         this.startCamera();
       },
-      openCameraBack() {
-        this.cameraOpened = ! this.cameraOpened;
-        this.startCamera();
-      },
+    
       async startCamera() {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
         this.$refs.video.srcObject = stream;
