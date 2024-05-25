@@ -47,20 +47,30 @@
         this.$refs.notification.showNotification('Camera opened');
       },
       async startCamera() {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: this.facingMode },
-          audio: true
-        });
-        this.$refs.video.srcObject = stream;
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: this.facingMode },
+            audio: true
+          });
+          this.$refs.video.srcObject = stream;
+        } catch (error) {
+          console.error("Error accessing camera:", error);
+          this.$refs.notification.showNotification('Error accessing camera');
+        }
       },
       async toggleCamera() {
         this.facingMode = this.facingMode === 'user' ? 'environment' : 'user';
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: this.facingMode },
-          audio: true
-        });
-        this.$refs.video.srcObject = stream;
-        this.$refs.notification.showNotification(`Switched to ${this.facingMode === 'user' ? 'front' : 'back'} camera`);
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: this.facingMode },
+            audio: true
+          });
+          this.$refs.video.srcObject = stream;
+          this.$refs.notification.showNotification(`Switched to ${this.facingMode === 'user' ? 'front' : 'back'} camera`);
+        } catch (error) {
+          console.error("Error toggling camera:", error);
+          this.$refs.notification.showNotification('Error toggling camera');
+        }
       },
       async startRecording() {
         this.resetMedia();
