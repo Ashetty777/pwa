@@ -38,6 +38,7 @@
         fileName: '',
         cameraOpened: false,
         facingMode: 'user', // Default to front camera
+        currentStream: null,
       };
     },
     methods: {
@@ -52,7 +53,7 @@
             video: { facingMode: this.facingMode },
             audio: true,
           });
-          this.$refs.video.srcObject = stream;
+          this.handleStream(stream);
         } catch (error) {
           console.error("Error accessing camera:", error);
           this.$refs.notification.showNotification(`Error accessing camera: ${error.message}`);
@@ -61,16 +62,28 @@
       async toggleCamera() {
         this.facingMode = this.facingMode === 'user' ? 'environment' : 'user';
         try {
+          if (this.currentStream) {
+            this.stopStream(this.currentStream);
+          }
           const stream = await navigator.mediaDevices.getUserMedia({
             video: { facingMode: this.facingMode },
             audio: true,
           });
-          this.$refs.video.srcObject = stream;
+          this.handleStream(stream);
           this.$refs.notification.showNotification(`Switched to ${this.facingMode === 'user' ? 'front' : 'back'} camera`);
         } catch (error) {
           console.error("Error toggling camera:", error);
           this.$refs.notification.showNotification(`Error toggling camera: ${error.message}`);
         }
+      },
+      handleStream(stream) {
+        this.currentStream = stream;
+        this.$refs.video.srcObject = stream;
+      },
+      stopStream(stream) {
+        const tracks = stream.getTracks();
+        tracks.forEach(track => track.stop());
+        this.$refs.video.srcObject = null;
       },
       async startRecording() {
         this.resetMedia();
@@ -94,10 +107,7 @@
       stopRecording() {
         if (this.mediaRecorder) {
           this.mediaRecorder.stop();
-          const stream = this.$refs.video.srcObject;
-          const tracks = stream.getTracks();
-          tracks.forEach((track) => track.stop());
-          this.$refs.video.srcObject = null;
+          this.stopStream(this.currentStream);
           this.$refs.notification.showNotification('Recording stopped');
         }
       },
@@ -116,10 +126,9 @@
       },
       closeCamera() {
         this.cameraOpened = false;
-        const stream = this.$refs.video.srcObject;
-        const tracks = stream.getTracks();
-        tracks.forEach((track) => track.stop());
-        this.$refs.video.srcObject = null;
+        if (this.currentStream) {
+          this.stopStream(this.currentStream);
+        }
         this.$refs.notification.showNotification('Camera closed');
       },
       cancelMedia() {
@@ -239,5 +248,4 @@
     margin-top: 20px;
   }
   </style>
-  <!-- finished -->
   
