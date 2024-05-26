@@ -1,5 +1,5 @@
 <template>
-  <div v-if="deferredPrompt">
+  <div v-if="showInstallButton">
     <button @click="installApp" class="install-button">
       <i class="fas fa-download"></i> Install App
     </button>
@@ -11,13 +11,20 @@ export default {
   data() {
     return {
       deferredPrompt: null,
+      showInstallButton: false,
     };
   },
   mounted() {
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       this.deferredPrompt = e;
+      this.showInstallButton = true;
     });
+
+    // Check if the app is already installed
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      this.showInstallButton = false;
+    }
   },
   methods: {
     async installApp() {
@@ -30,6 +37,7 @@ export default {
           console.log('User dismissed the install prompt');
         }
         this.deferredPrompt = null;
+        this.showInstallButton = false;
       }
     },
   },
@@ -60,4 +68,5 @@ export default {
   margin-right: 8px; /* Space between icon and text */
 }
 </style>
+
 
