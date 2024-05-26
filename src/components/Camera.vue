@@ -5,8 +5,9 @@
         <button @click="openCamera" class="btn open-camera">Open Camera</button>
       </div>
       <div v-else class="controls">
-        <button @click="startRecording" class="btn start">Start Recording</button>
-        <button @click="stopRecording" class="btn stop">Stop Recording</button>
+        <button @click="toggleRecording" class="btn recording">
+          {{ isRecording ? 'Stop Recording' : 'Start Recording' }}
+        </button>
         <button @click="captureImage" class="btn capture">Capture Image</button>
         <button @click="toggleCamera" class="btn toggle">Toggle Camera</button>
         <button @click="closeCamera" class="btn close">Close Camera</button>
@@ -37,6 +38,7 @@
         isVideo: false,
         fileName: '',
         cameraOpened: false,
+        isRecording: false,
         facingMode: 'user', // Default to front camera
         currentStream: null,
       };
@@ -85,6 +87,13 @@
         tracks.forEach(track => track.stop());
         this.$refs.video.srcObject = null;
       },
+      toggleRecording() {
+        if (this.isRecording) {
+          this.stopRecording();
+        } else {
+          this.startRecording();
+        }
+      },
       async startRecording() {
         this.resetMedia();
         this.isVideo = true;
@@ -102,12 +111,14 @@
           this.mediaUrl = URL.createObjectURL(blob);
         };
         this.mediaRecorder.start();
+        this.isRecording = true;
         this.$refs.notification.showNotification('Recording started');
       },
       stopRecording() {
         if (this.mediaRecorder) {
           this.mediaRecorder.stop();
           this.stopStream(this.currentStream);
+          this.isRecording = false;
           this.$refs.notification.showNotification('Recording stopped');
         }
       },
@@ -187,20 +198,12 @@
     background-color: #0056b3; /* Darker blue on hover */
   }
   
-  .start {
+  .recording {
     background-color: #4CAF50; /* Green background */
   }
   
-  .start:hover {
+  .recording:hover {
     background-color: #45a049; /* Darker green on hover */
-  }
-  
-  .stop {
-    background-color: #f44336; /* Red background */
-  }
-  
-  .stop:hover {
-    background-color: #da190b; /* Darker red on hover */
   }
   
   .capture {
