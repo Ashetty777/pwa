@@ -1,6 +1,7 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
 import Camera from './components/Camera.vue'
+import Notifications from './components/Notifications.vue'
 </script>
 
 <template>
@@ -11,8 +12,9 @@ import Camera from './components/Camera.vue'
     <a href="https://vuejs.org/" target="_blank">
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
-    <HelloWorld msg="Vite + Vue" />
-    <Camera/>
+    <HelloWorld/>
+   <Camera/>
+   <Notifications/>
   </div>
 </template>
 
