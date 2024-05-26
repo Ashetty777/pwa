@@ -9,7 +9,7 @@
           {{ isRecording ? 'Stop Recording' : 'Start Recording' }}
         </button>
         <button @click="captureImage" class="btn capture">Capture Image</button>
-        <button @click="toggleCamera" class="btn toggle">Toggle Camera</button>
+        <button @click="toggleCamera" class="btn toggle">Switch Camera</button>
         <button @click="closeCamera" class="btn close">Close Camera</button>
       </div>
       <div v-if="mediaUrl" class="media-output">
@@ -117,7 +117,6 @@
       stopRecording() {
         if (this.mediaRecorder) {
           this.mediaRecorder.stop();
-          this.stopStream(this.currentStream);
           this.isRecording = false;
           this.$refs.notification.showNotification('Recording stopped');
         }
