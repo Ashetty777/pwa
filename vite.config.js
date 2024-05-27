@@ -9,7 +9,6 @@ export default defineConfig({
       manifest: {
         name: 'My PWA App',
         short_name: 'PWA App',
-        description: 'My Progressive Web App using Vite',
         theme_color: '#ffffff',
         icons: [
           {
@@ -24,6 +23,22 @@ export default defineConfig({
             purpose:"maskable",
           },
         ],
+        description:
+        'Pwa Setup Project Where you can send notifications and also click pictures record vedio and install the application in the mobile devices',
+      screenshots: [
+        {
+          src: 'pwa-512x512.png',
+          type: 'image/png',
+          sizes: '512x512',
+          form_factor: 'wide',
+        },
+        {
+          src: 'pwa-192x192.png',
+          type: 'image/png',
+          sizes: '192x192',
+          form_factor: 'narrow',
+        },
+      ],
       },
       registerType: 'autoUpdate',
       workbox: {
