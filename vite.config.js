@@ -33,22 +33,16 @@ export default defineConfig({
           form_factor: 'wide',
         },
         {
+          src: 'a2.png',
+          type: 'image/png',
+          sizes: '512x512',
+          form_factor: 'wide',
+        },
+        {
           src: 'pwa-192x192.png',
           type: 'image/png',
           sizes: '192x192',
           form_factor: 'narrow',
-        },
-        {
-          src: 'a1.png',
-          type: 'image/png',
-          sizes: '538x387',
-          form_factor: 'narrow',
-        },
-        {
-          src: 'a1.png',
-          type: 'image/png',
-          sizes: '538x387',
-          form_factor: 'wide',
         },
       ],
       },
