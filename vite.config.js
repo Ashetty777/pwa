@@ -7,7 +7,7 @@ export default defineConfig({
     vue(),
     VitePWA({
       manifest: {
-        name: 'My PWA App',
+        name: 'My PWA Apps',
         short_name: 'PWA App',
         theme_color: '#ffffff',
         icons: [
