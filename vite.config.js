@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue';
 import { VitePWA } from 'vite-plugin-pwa';
 
 const manifest = {
-  name: 'My PWA Apps',
+  name: 'PWA Apps',
   short_name: 'PWA App',
   theme_color: '#ffffff',
   icons: [
