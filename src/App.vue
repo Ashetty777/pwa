@@ -5,13 +5,7 @@ import Notifications from './components/Notifications.vue'
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="./assets/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="main">
     <HelloWorld/>
    <Camera/>
    <Notifications/>
@@ -21,6 +15,9 @@ import Notifications from './components/Notifications.vue'
 </template>
 
 <style scoped>
+.main{
+  background-color: aquamarine;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
