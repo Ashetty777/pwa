@@ -8,7 +8,7 @@
           placeholder="Enter notification message"
           v-model="notificationMessage"
         />
-        <button type="submit" class="button">Send Notification</button>
+        <button type="submit" class="button">Send Notificationssss</button>
       </form>
     </div>
   </template>
