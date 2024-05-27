@@ -9,7 +9,6 @@ export default defineConfig({
       manifest: {
         name: 'My PWA App',
         short_name: 'PWA App',
-        description: 'My Progressive Web App using Vite',
         theme_color: '#ffffff',
         icons: [
           {
@@ -25,6 +24,8 @@ export default defineConfig({
           },
         ],
       },
+      description:
+          'Pwa Setup Project Where you can send notifications and also click pictures record vedio and install the application in the mobile devices',
       registerType: 'autoUpdate',
       workbox: {
         clientsClaim: true,

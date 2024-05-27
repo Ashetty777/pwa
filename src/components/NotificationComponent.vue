@@ -16,7 +16,7 @@
       };
     },
     methods: {
-      showNotification(msg, duration = 3000) {
+      showNotification(msg, duration = 1000) {
         this.message = msg;
         this.visible = true;
         if (this.timeout) {
