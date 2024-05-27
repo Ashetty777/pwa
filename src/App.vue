@@ -2,6 +2,7 @@
 import HelloWorld from './components/HelloWorld.vue'
 import Camera from './components/Camera.vue'
 import Notifications from './components/Notifications.vue'
+import ManifestInfo from './components/ManifestInfo.vue';
 </script>
 
 <template>
@@ -15,6 +16,9 @@ import Notifications from './components/Notifications.vue'
     <HelloWorld/>
    <Camera/>
    <Notifications/>
+  </div>
+  <div id="app">
+    <ManifestInfo />
   </div>
 </template>
 
