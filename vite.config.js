@@ -38,6 +38,18 @@ export default defineConfig({
           sizes: '192x192',
           form_factor: 'narrow',
         },
+        {
+          src: 'a1.png',
+          type: 'image/png',
+          sizes: '538x387',
+          form_factor: 'narrow',
+        },
+        {
+          src: 'a1.png',
+          type: 'image/png',
+          sizes: '538x387',
+          form_factor: 'wide',
+        },
       ],
       },
       registerType: 'autoUpdate',
