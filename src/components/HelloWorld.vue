@@ -54,7 +54,7 @@ export default {
   text-decoration: none; /* Remove underline */
   display: inline-block; /* Make the buttons appear beside each other */
   font-size: 16px; /* Increase font size */
-  margin: 4px 2px; /* Add some margin */
+  margin: auto; /* Add some margin */
   cursor: pointer; /* Add a pointer cursor on hover */
   border-radius: 5px; /* Rounded corners */
   transition: background-color 0.3s; /* Smooth transition for background color */

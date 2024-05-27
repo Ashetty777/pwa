@@ -1,15 +1,19 @@
 <template>
-    <div class="card">
-      <h2 class="card-title">Notifications</h2>
-      <form class="form" @submit.prevent="handleSubmit">
-        <input
-          type="text"
-          class="input"
-          placeholder="Enter notification message"
-          v-model="notificationMessage"
-        />
-        <button type="submit" class="button">Send Notificationssss</button>
-      </form>
+    <div class="notification-wrapper">
+      <button @click="toggleNotifications" class="button notification-button">Notifications</button>
+      
+      <div v-if="showNotifications" class="card">
+        <h2 class="card-title">Notifications</h2>
+        <form class="form" @submit.prevent="handleSubmit">
+          <input
+            type="text"
+            class="input"
+            placeholder="Enter notification message"
+            v-model="notificationMessage"
+          />
+          <button type="submit" class="button">Send Notification</button>
+        </form>
+    </div>
     </div>
   </template>
   
@@ -18,9 +22,13 @@
     data() {
       return {
         notificationMessage: '',
+        showNotifications: false,
       };
     },
     methods: {
+      toggleNotifications() {
+        this.showNotifications = !this.showNotifications;
+      },
       async sendNotification() {
         if (!('Notification' in window)) {
           alert('This browser does not support desktop notification');
@@ -56,6 +64,31 @@
   </script>
   
   <style scoped>
+  .notification-wrapper {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .button {
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
+  .button:hover {
+    background-color: #0056b3;
+  }
+  
+  .button:active {
+    background-color: #004494;
+  }
+  
   .card {
     display: flex;
     flex-direction: column;
@@ -64,9 +97,10 @@
     max-width: 400px;
     margin: auto;
     padding: 20px;
-    background: white;
+    background-color: rgb(206, 196, 196);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
   }
   
   .card-title {
@@ -95,26 +129,6 @@
   .input:focus {
     border-color: #007bff;
     outline: none;
-  }
-  
-  .button {
-    padding: 12px 24px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: background-color 0.3s;
-  }
-  
-  .button:hover {
-    background-color: #0056b3;
-  }
-  
-  .button:active {
-    background-color: #004494;
   }
   </style>
   

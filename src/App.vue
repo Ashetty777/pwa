@@ -9,14 +9,14 @@ import Notifications from './components/Notifications.vue'
     <HelloWorld/>
    <Camera/>
    <Notifications/>
-  </div>
-  <div id="app">
-  </div>
+</div>
 </template>
 
 <style scoped>
 .main{
   background-color: aquamarine;
+  width:100vw;
+  height: 100vh;
 }
 .logo {
   height: 6em;
